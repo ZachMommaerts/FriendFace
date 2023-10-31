@@ -44,7 +44,7 @@ struct User: Codable {
     }
     
     init(from decoder: Decoder) throws {
-        var container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy: CodingKeys.self)
         
         id = try container.decode(String.self, forKey: .id)
         isActive = try container.decode(Bool.self, forKey: .isActive)
