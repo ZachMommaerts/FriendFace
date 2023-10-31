@@ -12,7 +12,15 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             List(users, id: \.id) { user in
-                Text(user.name)
+                NavigationLink {
+                    UserDetailsView(user: user)
+                } label: {
+                    HStack {
+                        Image(systemName: "person.crop.circle.badge.fill")
+                            .foregroundStyle((user.isActive ? Color.green : Color.red), Color.blue)
+                        Text(user.name)
+                    }
+                }
             }
             .navigationTitle("Friend Face")
             .onAppear{
@@ -24,13 +32,20 @@ struct ContentView: View {
     }
     
     func loadData() async {
+        
+        guard users.isEmpty else {
+            return
+        }
+        
         let url = URL(string: "https://www.hackingwithswift.com/samples/friendface.json")!
         
         URLSession.shared.dataTask(with: url) { data, response, error in
             if let data = data {
                 do {
-                    let decodedResponse = try JSONDecoder().decode([User].self, from: data)
-                    print(decodedResponse)
+                    let decoder = JSONDecoder()
+                    decoder.dateDecodingStrategy = .iso8601
+                    
+                    let decodedResponse = try decoder.decode([User].self, from: data)
                     users = decodedResponse
                 } catch {
                     print("Could not decode data.")

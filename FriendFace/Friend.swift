@@ -29,6 +29,6 @@ struct Friend: Codable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         
         id = try container.decode(String.self, forKey: .id)
-        name = try container.decode(String.self, forKey: .id)
+        name = try container.decode(String.self, forKey: .name)
     }
 }

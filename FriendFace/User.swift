@@ -21,9 +21,9 @@ struct User: Codable {
     var email = ""
     var address = ""
     var about = ""
-    var registered = ""
+    var registered = Date.now
     var tags = [""]
-    var friends = [Friend()]
+    var friends = [Friend]()
     
     init() {    }
     
@@ -54,7 +54,7 @@ struct User: Codable {
         email = try container.decode(String.self, forKey: .email)
         address = try container.decode(String.self, forKey: .address)
         about = try container.decode(String.self, forKey: .about)
-        registered = try container.decode(String.self, forKey: .registered)
+        registered = try container.decode(Date.self, forKey: .registered)
         tags = try container.decode([String].self, forKey: .tags)
         friends = try container.decode([Friend].self, forKey: .friends)
     }

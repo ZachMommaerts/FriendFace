@@ -13,6 +13,7 @@
 		413619292AEDAA73001E322E /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 413619282AEDAA73001E322E /* Preview Assets.xcassets */; };
 		413619322AEDB9B3001E322E /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413619312AEDB9B3001E322E /* User.swift */; };
 		413619342AEDB9C1001E322E /* Friend.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413619332AEDB9C1001E322E /* Friend.swift */; };
+		413619362AF0BF0F001E322E /* UserDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413619352AF0BF0F001E322E /* UserDetailsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -23,6 +24,7 @@
 		413619282AEDAA73001E322E /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		413619312AEDB9B3001E322E /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		413619332AEDB9C1001E322E /* Friend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Friend.swift; sourceTree = "<group>"; };
+		413619352AF0BF0F001E322E /* UserDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDetailsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,6 +59,7 @@
 			children = (
 				413619212AEDAA70001E322E /* FriendFaceApp.swift */,
 				413619232AEDAA70001E322E /* ContentView.swift */,
+				413619352AF0BF0F001E322E /* UserDetailsView.swift */,
 				413619312AEDB9B3001E322E /* User.swift */,
 				413619332AEDB9C1001E322E /* Friend.swift */,
 				413619252AEDAA73001E322E /* Assets.xcassets */,
@@ -143,6 +146,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				413619362AF0BF0F001E322E /* UserDetailsView.swift in Sources */,
 				413619322AEDB9B3001E322E /* User.swift in Sources */,
 				413619242AEDAA70001E322E /* ContentView.swift in Sources */,
 				413619342AEDB9C1001E322E /* Friend.swift in Sources */,
