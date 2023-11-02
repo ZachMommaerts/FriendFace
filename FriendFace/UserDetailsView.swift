@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct UserDetailsView: View {
-    var user: User
+    var user: CachedUser
     
     var body: some View {
         ScrollView() {
@@ -26,28 +26,33 @@ struct UserDetailsView: View {
                         Spacer()
                     }
                     
-                    Text(user.about)
+                    Text(user.wrappedAbout)
                         .padding()
                 }
                 
                 Section {
                     Text("Age: \(user.age)")
-                    Text("Company: \(user.company)")
-                    Text("Email: \(user.email)")
-                    Text("Address: \(user.address)")
-                    Text("Joined: \(user.registered.formatted(date: .long, time: .omitted))")
-                    Text("Tags: \(user.tags.joined(separator: ", "))")
+                    Text("Company: \(user.wrappedCompany)")
+                    Text("Email: \(user.wrappedEmail)")
+                    Text("Address: \(user.wrappedAddress)")
+                    Text("Joined: \(user.wrappedRegistered.formatted(date: .long, time: .omitted))")
+                    ForEach(user.wrappedTags.split(separator: ","), id: \.self) { tag in
+                        Text(tag)
+                            .foregroundStyle(.white)
+                            .background(.blue)
+                    }
                 } header: {
                     Text("Information")
                         .font(.headline.bold())
                 }
                 
                 Section {
-                    ForEach(user.friends, id: \.id) { friend in
+                    Text(String(user.wrappedFriends.count))
+                    ForEach(user.wrappedFriends, id: \.id) { friend in
                         HStack {
                             Image(systemName: "person.fill")
                                 .foregroundStyle(.blue)
-                            Text(friend.name)
+                            Text(friend.wrappedName)
                         }
                     }
                 } header: {
@@ -58,11 +63,11 @@ struct UserDetailsView: View {
             }
         }
         .padding()
-        .navigationBarTitle(user.name, displayMode: .inline)
+        .navigationBarTitle(user.wrappedName, displayMode: .inline)
     }
     
 }
 
 #Preview {
-    UserDetailsView(user: User())
+    UserDetailsView(user: CachedUser())
 }

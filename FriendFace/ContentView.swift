@@ -8,24 +8,31 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var users = [User]()
+    @Environment(\.managedObjectContext) var moc
+    @FetchRequest(sortDescriptors: []) var cachedUsers: FetchedResults<CachedUser>
+    private var users = [Friend]()
+    
     var body: some View {
         NavigationView {
-            List(users, id: \.id) { user in
+            List(cachedUsers, id: \.id) { user in
                 NavigationLink {
                     UserDetailsView(user: user)
                 } label: {
                     HStack {
                         Image(systemName: "person.crop.circle.badge.fill")
                             .foregroundStyle((user.isActive ? Color.green : Color.red), Color.blue)
-                        Text(user.name)
+                        Text(user.wrappedName)
                     }
                 }
             }
             .navigationTitle("Friend Face")
             .onAppear{
                 Task {
-                   await loadData()
+                    await MainActor.run {
+                        Task {
+                            await loadData()
+                        }
+                    }
                 }
             }
         }
@@ -46,12 +53,47 @@ struct ContentView: View {
                     decoder.dateDecodingStrategy = .iso8601
                     
                     let decodedResponse = try decoder.decode([User].self, from: data)
-                    users = decodedResponse
+                    
+                    Task {
+                        await MainActor.run {
+                            storeData(users: decodedResponse)
+                        }
+                    }
                 } catch {
                     print("Could not decode data.")
                 }
             }
         }.resume()
+    }
+    
+    func storeData(users: [User]) {
+        for user in users {
+            let cachedUser = CachedUser(context: moc)
+            
+            cachedUser.id = user.id
+            cachedUser.isActive = user.isActive
+            cachedUser.name = user.name
+            cachedUser.age = Int16(user.name) ?? 0
+            cachedUser.company = user.company
+            cachedUser.email = user.email
+            cachedUser.address = user.address
+            cachedUser.about = user.about
+            cachedUser.registered = user.registered
+            cachedUser.tags = user.tags.joined(separator: ",")
+            
+            for friend in user.friends {
+                let cachedFriend = CachedFriend(context: moc)
+                cachedFriend.id = friend.id
+                cachedFriend.name = friend.name
+                try? moc.save()
+                cachedFriend.user = cachedUser
+                cachedUser.addToFriends(cachedFriend)
+            }
+            
+            print("\(user.name), User Count: \(user.friends.count)")
+            print("\(cachedUser.wrappedName), CachedUser Count: \(cachedUser.wrappedFriends.count)")
+            try? moc.save()
+        }
     }
 }
 

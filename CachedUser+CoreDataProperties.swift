@@ -2,7 +2,7 @@
 //  CachedUser+CoreDataProperties.swift
 //  FriendFace
 //
-//  Created by Zach Mommaerts on 10/31/23.
+//  Created by Zach Mommaerts on 11/2/23.
 //
 //
 
@@ -16,20 +16,20 @@ extension CachedUser {
         return NSFetchRequest<CachedUser>(entityName: "CachedUser")
     }
 
+    @NSManaged public var about: String?
+    @NSManaged public var address: String?
+    @NSManaged public var age: Int16
+    @NSManaged public var company: String?
+    @NSManaged public var email: String?
     @NSManaged public var id: String?
     @NSManaged public var isActive: Bool
     @NSManaged public var name: String?
-    @NSManaged public var company: String?
-    @NSManaged public var email: String?
-    @NSManaged public var address: String?
-    @NSManaged public var age: Int16
-    @NSManaged public var about: String?
     @NSManaged public var registered: Date?
     @NSManaged public var tags: String?
     @NSManaged public var friends: NSSet?
-    
+
     public var wrappedId: String {
-        id ?? "Unknown ID"
+                id ?? "Unknown ID"
     }
     
     public var wrappedName: String {

@@ -2,7 +2,7 @@
 //  CachedFriend+CoreDataClass.swift
 //  FriendFace
 //
-//  Created by Zach Mommaerts on 10/31/23.
+//  Created by Zach Mommaerts on 11/2/23.
 //
 //
 

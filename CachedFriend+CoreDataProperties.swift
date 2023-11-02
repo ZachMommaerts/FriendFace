@@ -2,7 +2,7 @@
 //  CachedFriend+CoreDataProperties.swift
 //  FriendFace
 //
-//  Created by Zach Mommaerts on 10/31/23.
+//  Created by Zach Mommaerts on 11/2/23.
 //
 //
 
@@ -18,13 +18,18 @@ extension CachedFriend {
 
     @NSManaged public var id: String?
     @NSManaged public var name: String?
+    @NSManaged public var user: CachedUser?
     
     public var wrappedId: String {
-        id ?? "Unknown ID"
+           id ?? "Unknown ID"
+    }
+       
+    public var wrappedName: String {
+           name ?? "Unknown name"
     }
     
-    public var wrappedName: String {
-        name ?? "Unknown name"
+    public var wrappedUser: CachedUser {
+        user ?? CachedUser()
     }
 
 }
