@@ -9,8 +9,8 @@ import SwiftUI
 
 struct ContentView: View {
     @Environment(\.managedObjectContext) var moc
-    @FetchRequest(sortDescriptors: []) var cachedUsers: FetchedResults<CachedUser>
-    private var users = [Friend]()
+    @FetchRequest(sortDescriptors: [SortDescriptor(\CachedUser.name)]) var cachedUsers: FetchedResults<CachedUser>
+    private var users = [User]()
     
     var body: some View {
         NavigationView {
@@ -28,11 +28,7 @@ struct ContentView: View {
             .navigationTitle("Friend Face")
             .onAppear{
                 Task {
-                    await MainActor.run {
-                        Task {
-                            await loadData()
-                        }
-                    }
+                    await loadData()
                 }
             }
         }
@@ -73,7 +69,7 @@ struct ContentView: View {
             cachedUser.id = user.id
             cachedUser.isActive = user.isActive
             cachedUser.name = user.name
-            cachedUser.age = Int16(user.name) ?? 0
+            cachedUser.age = Int16(user.age)
             cachedUser.company = user.company
             cachedUser.email = user.email
             cachedUser.address = user.address
@@ -85,15 +81,11 @@ struct ContentView: View {
                 let cachedFriend = CachedFriend(context: moc)
                 cachedFriend.id = friend.id
                 cachedFriend.name = friend.name
-                try? moc.save()
-                cachedFriend.user = cachedUser
+                cachedFriend.addToUsers(cachedUser)
                 cachedUser.addToFriends(cachedFriend)
             }
-            
-            print("\(user.name), User Count: \(user.friends.count)")
-            print("\(cachedUser.wrappedName), CachedUser Count: \(cachedUser.wrappedFriends.count)")
-            try? moc.save()
         }
+        try? moc.save()
     }
 }
 

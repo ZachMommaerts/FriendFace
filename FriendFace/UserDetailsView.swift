@@ -47,7 +47,6 @@ struct UserDetailsView: View {
                 }
                 
                 Section {
-                    Text(String(user.wrappedFriends.count))
                     ForEach(user.wrappedFriends, id: \.id) { friend in
                         HStack {
                             Image(systemName: "person.fill")

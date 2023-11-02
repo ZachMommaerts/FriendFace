@@ -18,8 +18,8 @@ extension CachedFriend {
 
     @NSManaged public var id: String?
     @NSManaged public var name: String?
-    @NSManaged public var user: CachedUser?
-    
+    @NSManaged public var users: NSSet?
+
     public var wrappedId: String {
            id ?? "Unknown ID"
     }
@@ -28,9 +28,29 @@ extension CachedFriend {
            name ?? "Unknown name"
     }
     
-    public var wrappedUser: CachedUser {
-        user ?? CachedUser()
+    public var wrappedUsers: [CachedUser] {
+        let set = users as? Set<CachedUser> ?? []
+        
+        return set.sorted {
+            $0.wrappedName < $1.wrappedName
+        }
     }
+}
+
+// MARK: Generated accessors for users
+extension CachedFriend {
+
+    @objc(addUsersObject:)
+    @NSManaged public func addToUsers(_ value: CachedUser)
+
+    @objc(removeUsersObject:)
+    @NSManaged public func removeFromUsers(_ value: CachedUser)
+
+    @objc(addUsers:)
+    @NSManaged public func addToUsers(_ values: NSSet)
+
+    @objc(removeUsers:)
+    @NSManaged public func removeFromUsers(_ values: NSSet)
 
 }
 
